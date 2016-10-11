@@ -55,6 +55,7 @@ With this structure introduced, we can begin.
 > import Data.MemoCombinators as Memo
 > import Linear.V2
 > import Data.Maybe
+> import Control.Monad (forM_)
 > import Data.Map (Map)
 > import qualified Data.Map as Map
 > import qualified SDL
@@ -216,10 +217,7 @@ Get a renderer to put our texture on.
 Associate our Cairo texture with the renderer.
 
 >     texture <- Cairo.createCairoTexture' renderer window
->     loop renderer texture frames 
->   where
-
->     loop renderer texture (frame:frames) = do
+>     frames `forM` \frame ->
 
 A rendering loop like any other rendering loop. Clear the buffer.
 
@@ -234,7 +232,6 @@ Swap the buffers.
 
 >         SDL.copy renderer texture Nothing Nothing
 >         SDL.present renderer
->         loop renderer texture frames 
 
 We represent each pixel by a circle, bigger and redder circles are hotter.
 
